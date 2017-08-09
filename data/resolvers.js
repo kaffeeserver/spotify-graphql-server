@@ -1,34 +1,39 @@
-import fetch from 'node-fetch';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 export const fetchArtistsByName = (name) => {
     console.log(`debug: query artist ${name} `);
 
-    return fetch(`https://api.spotify.com/v1/search?q=${name}&type=artist`)
-        .then((response) => {
-            return response.json();
-        })
+    var spotifyApi = spotifyClient();
+
+    return spotifyApi.searchArtists(name)
         .then((data) => {
-            return data.artists.items || [];
+            return data.body.artists.items || [];
         })
         .then((data) => {
             return data.map(artistRaw => spotifyJsonToArtist(artistRaw));
-        });
+        })
+
 };
 
 export const fetchAlbumsOfArtist = (artistId, limit) => {
     console.log(`debug: query albums of artist ${artistId} `);
 
-    return fetch(`https://api.spotify.com/v1/artists/${artistId}/albums`)
-        .then((response) => {
-            return response.json();
-        })
+    var spotifyApi = spotifyClient();
+
+    return spotifyApi.getArtistAlbums(artistId, { limit: limit })
         .then((data) => {
-            return data.items || [];
+            return data.body.artists.items || [];
         })
         .then((albumData) => {
             return albumData.map(albumRaw => spotifyJsonToAlbum(albumRaw));
         });
 };
+
+const spotifyClient = () => {
+    var spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken('generateYourOwn');
+    return spotifyApi;
+}
 
 const spotifyJsonToArtist = (raw) => {
     return {
@@ -44,7 +49,7 @@ const spotifyJsonToArtist = (raw) => {
             // this is similar to fetchArtistsByName()
             // returns a Promise which gets resolved asynchronously !
             const artistId = raw.id;
-            const { limit=1 } = args;
+            const { limit = 1 } = args;
             return fetchAlbumsOfArtist(artistId, limit);
         }
     };
