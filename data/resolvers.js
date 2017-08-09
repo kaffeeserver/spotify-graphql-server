@@ -22,7 +22,7 @@ export const fetchAlbumsOfArtist = (artistId, limit) => {
 
     return spotifyApi.getArtistAlbums(artistId, { limit: limit })
         .then((data) => {
-            return data.body.artists.items || [];
+            return data.body.items || [];
         })
         .then((albumData) => {
             return albumData.map(albumRaw => spotifyJsonToAlbum(albumRaw));
@@ -31,7 +31,7 @@ export const fetchAlbumsOfArtist = (artistId, limit) => {
 
 const spotifyClient = () => {
     var spotifyApi = new SpotifyWebApi();
-    spotifyApi.setAccessToken('generateYourOwn');
+    spotifyApi.setAccessToken('getYourOwn');
     return spotifyApi;
 }
 
@@ -55,8 +55,8 @@ const spotifyJsonToArtist = (raw) => {
     };
 };
 
-const spotifyJsonToAlbum = (albumRaw) => {
-    return {
+const spotifyJsonToAlbum = (albumRaw) => {    
+    return {    
         // fills with raw data (by ES6 spread operator):
         ...albumRaw,
 
