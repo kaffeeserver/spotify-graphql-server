@@ -1,5 +1,7 @@
 # spotify-graphql-server using spotify-web-api-node
-A fork of [spotify-graphql-server](https://github.com/lowsky/spotify-graphql-server) that uses [spotify-web-api-node](https://github.com/thelinmichael/spotify-web-api-node) for the Spotify API
+A fork of [spotify-graphql-server](https://github.com/lowsky/spotify-graphql-server) that uses [spotify-web-api-node](https://github.com/thelinmichael/spotify-web-api-node) for the Spotify API.
+
+Please see a [Live Demo](https://peaceful-cliffs-47963.herokuapp.com) here.
 ---
 # spotify-graphql-server
 [![Greenkeeper badge](https://badges.greenkeeper.io/lowsky/spotify-graphql-server.svg)](https://greenkeeper.io/)
