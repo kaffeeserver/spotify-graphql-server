@@ -1,39 +1,32 @@
-import SpotifyWebApi from 'spotify-web-api-node';
+const SpotifyClient = require('../clients/spotifyClient');
 
 export const fetchArtistsByName = (name) => {
     console.log(`debug: query artist ${name} `);
 
-    var spotifyApi = spotifyClient();
-
-    return spotifyApi.searchArtists(name)
-        .then((data) => {
-            return data.body.artists.items || [];
-        })
-        .then((data) => {
-            return data.map(artistRaw => spotifyJsonToArtist(artistRaw));
-        })
-
+    return SpotifyClient.then(spotifyClient => {
+        return spotifyClient.searchArtists(name)
+            .then((data) => {
+                return data.body.artists.items || [];
+            })
+            .then((data) => {
+                return data.map(artistRaw => spotifyJsonToArtist(artistRaw));
+            })
+    });
 };
 
 export const fetchAlbumsOfArtist = (artistId, limit) => {
     console.log(`debug: query albums of artist ${artistId} `);
 
-    var spotifyApi = spotifyClient();
-
-    return spotifyApi.getArtistAlbums(artistId, { limit: limit })
-        .then((data) => {
-            return data.body.items || [];
-        })
-        .then((albumData) => {
-            return albumData.map(albumRaw => spotifyJsonToAlbum(albumRaw));
-        });
+    return SpotifyClient.then(spotifyClient => {
+        return spotifyClient.getArtistAlbums(artistId, { limit: limit })
+            .then((data) => {
+                return data.body.items || [];
+            })
+            .then((albumData) => {
+                return albumData.map(albumRaw => spotifyJsonToAlbum(albumRaw));
+            });
+    });
 };
-
-const spotifyClient = () => {
-    var spotifyApi = new SpotifyWebApi();
-    spotifyApi.setAccessToken('getYourOwn');
-    return spotifyApi;
-}
 
 const spotifyJsonToArtist = (raw) => {
     return {
@@ -55,8 +48,8 @@ const spotifyJsonToArtist = (raw) => {
     };
 };
 
-const spotifyJsonToAlbum = (albumRaw) => {    
-    return {    
+const spotifyJsonToAlbum = (albumRaw) => {
+    return {
         // fills with raw data (by ES6 spread operator):
         ...albumRaw,
 
