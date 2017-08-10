@@ -17,4 +17,4 @@ public/stylesheets/style.css.map
 public/stylesheets/style.css
 
 # spotify client config
-#clients/spotifyClient.config.js
+clients/spotifyClient.config.js
