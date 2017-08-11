@@ -1,5 +1,8 @@
 import SpotifyWebApi from 'spotify-web-api-node';
-import SpotifyClientConfig from '../clients/spotifyClient.config';
+
+const SpotifyClientConfig = process.env.HEROKU
+    ? require('./spotifyClient.config.heroku')
+    : require('./spotifyClient.config');
 
 module.exports = new Promise(function (resolve, reject) {
     var spotifyApi = new SpotifyWebApi(SpotifyClientConfig);
